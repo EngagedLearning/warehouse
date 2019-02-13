@@ -1,7 +1,7 @@
 {
   "name": "@enlearn/warehouse",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tools for storing data in browsers.",
   "license": "MIT",
   "homepage": "https://github.com/engagedlearning/warehouse",

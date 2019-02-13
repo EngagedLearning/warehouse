@@ -7,11 +7,15 @@
  * Reference:
  * https://michalzalecki.com/why-using-localStorage-directly-is-a-bad-idea/
  */
-export const isLocalStorageSupported = () => {
+export const canUseStorage = storage => {
+  if (!storage) {
+    return false;
+  }
+
   try {
     const testKey = `enlearn.localStorageSupportTest`;
-    window.localStorage.setItem(testKey, "");
-    window.localStorage.removeItem(testKey);
+    storage.setItem(testKey, "");
+    storage.removeItem(testKey);
     return true;
   } catch (err) {
     return false;

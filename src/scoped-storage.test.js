@@ -1,41 +1,37 @@
 import { createScopedStorage } from "./scoped-storage";
-import { createInMemoryStorage } from "./in-memory-storage";
 
-let backingStorage;
+let mockedStorage;
 let scopedStorage;
 
 beforeEach(() => {
-  backingStorage = createInMemoryStorage();
-  scopedStorage = createScopedStorage(backingStorage, "test-scope");
-});
-
-test("write prepends scope when saving to backing storage", async () => {
-  await scopedStorage.write("key", "value");
-
-  expect(backingStorage.getItem("key")).toBe(null);
-  expect(backingStorage.getItem("test-scope.key")).toBe("value");
-});
-
-test("read prepends scope when reading from backing storage", async () => {
-  backingStorage.setItem("key", "bad");
-  backingStorage.setItem("test-scope.key", "good");
-
-  const value = await scopedStorage.read("key");
-  expect(value).toBe("good");
-});
-
-test("write rejects if backing storage throws", () => {
-  const error = new Error("uh oh");
-  backingStorage.setItem = () => {
-    throw error;
+  mockedStorage = {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn(),
   };
-  return expect(scopedStorage.write("key", "value")).rejects.toBe(error);
+  scopedStorage = createScopedStorage({
+    storage: mockedStorage,
+    scope: "test-scope",
+  });
 });
 
-test("read rejects if backing storage throws", () => {
-  const error = new Error("uh oh");
-  backingStorage.getItem = () => {
-    throw error;
-  };
-  return expect(scopedStorage.read("key")).rejects.toBe(error);
+test("scope is added as prefix to key when setting values", () => {
+  scopedStorage.setItem("key", "value");
+  expect(mockedStorage.setItem).toHaveBeenCalledWith("test-scope.key", "value");
+});
+
+test("scope is added as prefix to key when getting values", () => {
+  scopedStorage.getItem("key");
+  expect(mockedStorage.getItem).toHaveBeenCalledWith("test-scope.key");
+});
+
+test("scope is added as prefix to key when removing values", () => {
+  scopedStorage.removeItem("key");
+  expect(mockedStorage.removeItem).toHaveBeenCalledWith("test-scope.key");
+});
+
+test("clear is proxied to underlying storage", () => {
+  scopedStorage.clear();
+  expect(mockedStorage.clear).toHaveBeenCalled();
 });

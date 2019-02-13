@@ -9,7 +9,8 @@ export const createInMemoryStorage = () => {
   const data = {};
   return {
     getItem: key => {
-      return data.hasOwnProperty(key) ? data[key] : null;
+      const value = data[key];
+      return value === undefined ? null : value;
     },
     setItem: (key, value) => {
       data[key] = value.toString();
