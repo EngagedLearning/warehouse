@@ -1,6 +1,6 @@
 {
   "name": "@enlearn/warehouse",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Promise based data storage for browsers.",
   "license": "MIT",
   "homepage": "https://github.com/engagedlearning/warehouse",
@@ -9,13 +9,8 @@
     "url": "https://github.com:engagedlearning/warehouse",
     "type": "git"
   },
-  "main": "dist/enlearn.warehouse.js",
-  "module": "dist/enlearn.warehouse.esm.js",
-  "files": [
-    "dist/*.js"
-  ],
+  "main": "src/index.js",
   "scripts": {
-    "build": "rimraf dist && rollup -c",
     "lint": "eslint .",
     "prettier": "prettier --write \"**/*.md\" \"**/*.js\" \"**/*.json\"",
     "test": "jest"
@@ -49,10 +44,7 @@
     "husky": "^1.3.1",
     "jest": "^24.1.0",
     "lint-staged": "^8.1.3",
-    "prettier": "^1.16.4",
-    "rollup": "^1.1.2",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-cleanup": "^3.1.1"
+    "prettier": "^1.16.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
