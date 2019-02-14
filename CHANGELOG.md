@@ -4,13 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## 0.3.0
+## 0.5.0 - 2019-02-14
 
-## Changed
+### Removed
+
+- Removing Rollup and instead defering to consumers to transpile as necessary
+
+## 0.4.0 - 2019-02-13
+
+### Added
+
+- Rollup builds transpiled version of library for consumers
+
+## 0.3.0 - 2019-02-13
+
+### Changed
 
 - Project is public and published to NPM
 
-## 0.2.0
+## 0.2.0 - 2019-02-13
 
 ### Changed
 
@@ -19,7 +31,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com) and this pr
 - Changed scoped storage to just handle the key prefixing and not add a Promise wrapper.
 - Added createWarehouse to wrap up the rest of our functionality to produce a Promise based warehouse API.
 
-## 0.1.0
+## 0.1.0 - 2019-02-13
 
 ### Added
 
