@@ -13,7 +13,7 @@ export const canUseStorage = storage => {
   }
 
   try {
-    const testKey = `enlearn.localStorageSupportTest`;
+    const testKey = "enlearn_warehouse_storage_support_test_key";
     storage.setItem(testKey, "");
     storage.removeItem(testKey);
     return true;

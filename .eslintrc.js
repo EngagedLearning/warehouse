@@ -23,6 +23,13 @@ module.exports = {
       },
     },
     {
+      files: ["rollup.config.js"],
+      env: {
+        browser: false,
+        node: true,
+      },
+    },
+    {
       files: [
         ".eslintrc.js",
         "babel.config.js",
