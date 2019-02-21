@@ -15,9 +15,9 @@ action "yarn install" {
 
 action "yarn test" {
   uses = "docker://node:10"
+  needs = ["yarn install"]
   runs = "yarn"
   args = "test"
-  needs = ["yarn install"]
 }
 
 action "yarn lint" {
