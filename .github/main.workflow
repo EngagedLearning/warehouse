@@ -9,6 +9,8 @@ workflow "Pull Request" {
 action "yarn install" {
   uses = "docker://node:10"
   needs = ["check pr action"]
+  runs = "yarn"
+  args = "install"
 }
 
 action "yarn test" {
