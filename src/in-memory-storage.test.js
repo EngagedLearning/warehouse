@@ -3,7 +3,7 @@ import { createInMemoryStorage } from "./in-memory-storage";
 let storage;
 
 beforeEach(() => {
-  storage = createInMemoryStorage();
+  storage = createInMemoryStorage("");
 });
 
 test("can get and set strings", () => {

@@ -5,18 +5,20 @@
  * Reference:
  * https://developer.mozilla.org/en-US/docs/Web/API/Storage
  */
-export const createInMemoryStorage = () => {
+export const createInMemoryStorage = scope => {
+  const fullKey = key => `${scope}.${key}`;
   const data = {};
+
   return {
     getItem: key => {
-      const value = data[key];
+      const value = data[fullKey(key)];
       return value === undefined ? null : value;
     },
     setItem: (key, value) => {
-      data[key] = value.toString();
+      data[fullKey(key)] = value.toString();
     },
     removeItem: key => {
-      delete data[key];
+      delete data[fullKey(key)];
     },
     clear: () => {
       Object.keys(data).forEach(k => {

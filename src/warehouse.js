@@ -2,21 +2,18 @@ import { canUseStorage } from "./can-use-storage";
 import { createInMemoryStorage } from "./in-memory-storage";
 import { createScopedStorage } from "./scoped-storage";
 
-const getOrCreateStorage = () => {
+const getOrCreateStorage = scope => {
   if (canUseStorage(window.localStorage)) {
-    return window.localStorage;
+    return createScopedStorage({ storage: window.localStorage, scope });
   } else if (canUseStorage(window.sessionStorage)) {
-    return window.sessionStorage;
+    return createScopedStorage({ storage: window.sessionStorage, scope });
   } else {
-    return new createInMemoryStorage();
+    return createInMemoryStorage(scope);
   }
 };
 
 export const createWarehouse = ({ scope }) => {
-  const storage = createScopedStorage({
-    storage: getOrCreateStorage(),
-    scope,
-  });
+  const storage = getOrCreateStorage(scope);
 
   return {
     write: (key, value) =>
