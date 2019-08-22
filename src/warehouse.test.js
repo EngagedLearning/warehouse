@@ -1,4 +1,7 @@
 import { createWarehouse } from "./warehouse";
+import { createDynamoStorage } from "./dynamo-storage";
+
+jest.mock("./dynamo-storage");
 
 let mockStorage;
 let warehouse;
@@ -15,12 +18,55 @@ beforeEach(() => {
     localStorage: mockStorage,
   };
 
-  warehouse = createWarehouse({ scope: "test-scope" });
+  warehouse = createWarehouse({ table: "test-table", scope: "test-scope" });
+});
+
+test("can create in-memory-storage", async () => {
+  global.window.localStorage = null;
+
+  const warehouse1 = createWarehouse({
+    table: "test-table",
+    scope: "test-scope",
+  });
+  const warehouse2 = createWarehouse({
+    table: "test-table",
+    scope: "test-scope",
+  });
+
+  await warehouse1.write("key", "value");
+
+  expect(warehouse1.read("key")).resolves.toBe("value");
+  expect(warehouse2.read("key")).resolves.toBe(null);
+});
+
+test("can create dynamostorage", async () => {
+  global.window.localStorage = null;
+
+  const fakeDynamoStorage = {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn(),
+  };
+
+  createDynamoStorage.mockImplementation(() => fakeDynamoStorage);
+  const createDynamo = () => {};
+  const dynamoWarehouse = createWarehouse({
+    table: "test-table",
+    scope: "test-scope",
+    createDynamo,
+  });
+
+  await expect(dynamoWarehouse.write("key", "value")).resolves.toBe(undefined);
+  expect(fakeDynamoStorage.setItem).toHaveBeenCalledWith("key", "value");
 });
 
 test("write proxies to storage and resolves to undefined", async () => {
   await expect(warehouse.write("key", "value")).resolves.toBe(undefined);
-  expect(mockStorage.setItem).toHaveBeenCalledWith("test-scope.key", "value");
+  expect(mockStorage.setItem).toHaveBeenCalledWith(
+    "test-table.test-scope.key",
+    "value"
+  );
 });
 
 test("write rejects with error if storage throws", () => {
@@ -34,7 +80,7 @@ test("write rejects with error if storage throws", () => {
 test("read proxies to storage and resolves to the value returned", async () => {
   mockStorage.getItem.mockReturnValue("stored value");
   await expect(warehouse.read("key")).resolves.toBe("stored value");
-  expect(mockStorage.getItem).toHaveBeenCalledWith("test-scope.key");
+  expect(mockStorage.getItem).toHaveBeenCalledWith("test-table.test-scope.key");
 });
 
 test("read rejects with error if storage throws", () => {
@@ -47,7 +93,9 @@ test("read rejects with error if storage throws", () => {
 
 test("remove proxies to storage and resolves to undefined", async () => {
   await expect(warehouse.remove("key")).resolves.toBe(undefined);
-  expect(mockStorage.removeItem).toHaveBeenCalledWith("test-scope.key");
+  expect(mockStorage.removeItem).toHaveBeenCalledWith(
+    "test-table.test-scope.key"
+  );
 });
 
 test("remove rejects with error if storage throws", () => {

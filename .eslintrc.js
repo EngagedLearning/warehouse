@@ -8,6 +8,9 @@ module.exports = {
     browser: true,
     es6: true,
   },
+  rules: {
+    "no-console": "off",
+  },
   plugins: ["jest"],
   extends: ["@enlearn", "plugin:jest/recommended"],
   overrides: [

@@ -5,8 +5,8 @@
  * Reference:
  * https://developer.mozilla.org/en-US/docs/Web/API/Storage
  */
-export const createInMemoryStorage = scope => {
-  const fullKey = key => `${scope}.${key}`;
+export const createInMemoryStorage = (table, scope) => {
+  const fullKey = key => `${table}.${scope}.${key}`;
   const data = {};
 
   return {
