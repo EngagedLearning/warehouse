@@ -25,11 +25,3 @@ test("stored items can be removed", () => {
   storage.removeItem("a");
   expect(storage.getItem("a")).toBe(null);
 });
-
-test("entire storage can be cleared", () => {
-  storage.setItem("a", "1");
-  storage.setItem("b", "2");
-  storage.clear();
-  expect(storage.getItem("a")).toBe(null);
-  expect(storage.getItem("b")).toBe(null);
-});

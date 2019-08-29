@@ -600,9 +600,13 @@
     to-fast-properties "^2.0.0"
 
 "@enlearn/eslint-config@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@enlearn/eslint-config/-/eslint-config-1.4.0.tgz#828385ed768f397c69b1a28c771a8a5af54dbdda"
-  integrity sha512-/ZywSJDEK1sSMdLP01TXLp951kLd9YHRtcleKU/YkhOZFgNx9T8h6hzmgrvdYuBWXrEHyo/PAUzQveqnKw28Tw==
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@enlearn/eslint-config/-/eslint-config-1.6.0.tgz#a2be53a50eda394fc8ef872d062be8f8e71c591d"
+  integrity sha512-iZ612D/jEc1GJ5FmzKnAzUO+H5lyOp3cYj4rfxynTAgyj2Ocv3yCO8FJcHs0UCjVIFtAT2IS04OumW7n7b23QQ==
+
+"@enlearn/js-helpers@EngagedLearning/js-helpers.git#^0.0.x":
+  version "0.0.3"
+  resolved "git+ssh://git@github.com/EngagedLearning/js-helpers.git#70f584c91392bca93b74d8ae549fc50fb711ca1d"
 
 "@iamstarkov/listr-update-renderer@0.4.1":
   version "0.4.1"

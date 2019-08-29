@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint .",
     "prettier": "prettier --write \"**/*.md\" \"**/*.js\" \"**/*.json\"",
-    "test": "jest"
+    "test": "jest --silent"
   },
   "husky": {
     "hooks": {
@@ -30,6 +30,9 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "dependencies": {
+    "@enlearn/js-helpers": "EngagedLearning/js-helpers.git#^0.0.x"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

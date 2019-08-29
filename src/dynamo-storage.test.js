@@ -1,50 +1,46 @@
 import { createDynamoStorage } from "./dynamo-storage";
-import { checkReturn } from "./log-error";
+import { getItem, putItem } from "@enlearn/js-helpers";
+jest.mock("@enlearn/js-helpers");
 
-let fakeDynamoDb;
 let storage;
 
 beforeEach(() => {
-  fakeDynamoDb = {
-    getItem: jest.fn(),
-    putItem: jest.fn(),
-    deleteItem: jest.fn(),
-  };
-
-  storage = createDynamoStorage(() => fakeDynamoDb, "some-table", "some-scope");
+  storage = createDynamoStorage("some-table", "some-scope");
 });
 
-test("can get and set strings", () => {
-  storage.setItem("some key", "some value");
-  expect(fakeDynamoDb.putItem).toHaveBeenCalledWith(
-    {
-      Item: "some value",
-      Key: { KEY_NAME: { S: "some key" }, SCOPE_NAME: { S: "some-scope" } },
-      TableName: "some-table",
-    },
-    checkReturn
-  );
+test("setItem pass through to putItem", async () => {
+  const value = "some-value";
+  await storage.setItem("some key", value);
+  expect(putItem).toHaveBeenCalledWith("some-table", {
+    "some key": "some-value",
+    scope: "some-scope",
+  });
 });
 
-// test("stored items are always turned into strings", () => {
-//   storage.setItem("a", 123);
-//   expect(typeof storage.getItem("a")).toBe("string");
-// });
+test("setItem overwrites previous value", async () => {
+  getItem.mockReturnValue({
+    "some-key": "return-value",
+    "some-other-key": "unimportant-value",
+  });
 
-// test("querying for non-existent key returns null", () => {
-//   expect(storage.getItem("random key")).toBe(null);
-// });
+  const value = "some-new-value";
+  await storage.setItem("some-key", value);
+  expect(putItem).toHaveBeenCalledWith("some-table", {
+    "some-key": "some-new-value",
+    "some-other-key": "unimportant-value",
+  });
+});
 
-// test("stored items can be removed", () => {
-//   storage.setItem("a", "1");
-//   storage.removeItem("a");
-//   expect(storage.getItem("a")).toBe(null);
-// });
+test("getItem", async () => {
+  getItem.mockReturnValue({ "some-key": "return-value" });
+  const r = await storage.getItem("some-key");
+  expect(r).toEqual("return-value");
+  expect(getItem).toHaveBeenCalledWith("some-table", { scope: "some-scope" });
+});
 
-// test("entire storage can be cleared", () => {
-//   storage.setItem("a", "1");
-//   storage.setItem("b", "2");
-//   storage.clear();
-//   expect(storage.getItem("a")).toBe(null);
-//   expect(storage.getItem("b")).toBe(null);
-// });
+test("delete item writes value to undefined", async () => {
+  await storage.removeItem("some-key");
+  expect(putItem).toHaveBeenCalledWith("some-table", {
+    "some-key": undefined,
+  });
+});
