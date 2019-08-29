@@ -30,5 +30,5 @@ action "yarn lint" {
 
 action "check pr action" {
   uses = "actions/bin/filter@master"
-  args = "action 'opened|synchronize'"
+  args = "action 'rerequested|opened|synchronize'"
 }
