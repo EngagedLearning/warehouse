@@ -1,2 +1,5 @@
 node_modules/
+infrastructure-templates/
+packages/
+packages-temp/
 !.*.js

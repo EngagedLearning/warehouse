@@ -2,11 +2,14 @@ module.exports = {
   root: true,
   parserOptions: {
     sourceType: "module",
-    ecmaVersion: 2015,
+    ecmaVersion: 2017,
   },
   env: {
     browser: true,
     es6: true,
+  },
+  rules: {
+    "no-console": "off",
   },
   plugins: ["jest"],
   extends: ["@enlearn", "plugin:jest/recommended"],
@@ -31,6 +34,7 @@ module.exports = {
     },
     {
       files: [
+        "scripts/*",
         ".eslintrc.js",
         "babel.config.js",
         "jest.config.js",

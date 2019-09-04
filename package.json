@@ -1,7 +1,7 @@
 {
   "name": "@enlearn/warehouse",
-  "version": "0.5.0",
-  "description": "Promise based data storage for browsers.",
+  "version": "0.6.0",
+  "description": "Promise based data storage.",
   "license": "MIT",
   "homepage": "https://github.com/engagedlearning/warehouse",
   "bugs": "https://github.com/engagedlearning/warehouse/issues",
@@ -13,7 +13,8 @@
   "scripts": {
     "lint": "eslint .",
     "prettier": "prettier --write \"**/*.md\" \"**/*.js\" \"**/*.json\"",
-    "test": "jest"
+    "test": "jest --silent",
+    "release-it": "release-it"
   },
   "husky": {
     "hooks": {
@@ -31,11 +32,15 @@
       "git add"
     ]
   },
+  "dependencies": {
+    "@enlearn/js-helpers": "EngagedLearning/js-helpers.git#^0.0.x"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "@enlearn/eslint-config": "^1.4.0",
     "babel-jest": "^24.1.0",
+    "changelog-parser": "^2.7.0",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -44,7 +49,9 @@
     "husky": "^1.3.1",
     "jest": "^24.1.0",
     "lint-staged": "^8.1.3",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "moment": "^2.24.0",
+    "release-it": "^10.1.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

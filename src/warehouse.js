@@ -1,23 +1,25 @@
 import { canUseStorage } from "./can-use-storage";
 import { createInMemoryStorage } from "./in-memory-storage";
 import { createScopedStorage } from "./scoped-storage";
+import { createDynamoStorage } from "./dynamo-storage";
 
-const getOrCreateStorage = () => {
+const getOrCreateBrowserStorage = scope => {
   if (canUseStorage(window.localStorage)) {
-    return window.localStorage;
+    return createScopedStorage({
+      storage: window.localStorage,
+      scope: `${scope}`,
+    });
   } else if (canUseStorage(window.sessionStorage)) {
-    return window.sessionStorage;
+    return createScopedStorage({
+      storage: window.sessionStorage,
+      scope: `${scope}`,
+    });
   } else {
-    return new createInMemoryStorage();
+    return createInMemoryStorage(scope);
   }
 };
 
-export const createWarehouse = ({ scope }) => {
-  const storage = createScopedStorage({
-    storage: getOrCreateStorage(),
-    scope,
-  });
-
+const warehouse = storage => {
   return {
     write: (key, value) =>
       new Promise((resolve, reject) => {
@@ -45,14 +47,15 @@ export const createWarehouse = ({ scope }) => {
           reject(err);
         }
       }),
-    clear: () =>
-      new Promise((resolve, reject) => {
-        try {
-          storage.clear();
-          resolve();
-        } catch (err) {
-          reject(err);
-        }
-      }),
   };
+};
+
+export const createDynamoWarehouse = ({ table, scope }) => {
+  const storage = createDynamoStorage(table, scope);
+  return warehouse(storage);
+};
+
+export const createWarehouse = ({ scope }) => {
+  const storage = getOrCreateBrowserStorage(scope);
+  return warehouse(storage);
 };

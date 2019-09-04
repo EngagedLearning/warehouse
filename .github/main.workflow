@@ -7,10 +7,11 @@ workflow "Pull Request" {
 }
 
 action "yarn install" {
-  uses = "docker://node:10"
+  uses = "./.github/actions/yarn-install"
   needs = ["check pr action"]
-  runs = "yarn"
-  args = "install"
+  secrets = [
+    "ENLEARN_BUILD_PRIVATE_KEY"
+  ]
 }
 
 action "yarn test" {
@@ -29,5 +30,5 @@ action "yarn lint" {
 
 action "check pr action" {
   uses = "actions/bin/filter@master"
-  args = "action 'opened|synchronize'"
+  args = "action 'rerequested|opened|synchronize'"
 }

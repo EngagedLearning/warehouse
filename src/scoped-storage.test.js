@@ -8,7 +8,6 @@ beforeEach(() => {
     getItem: jest.fn(),
     setItem: jest.fn(),
     removeItem: jest.fn(),
-    clear: jest.fn(),
   };
   scopedStorage = createScopedStorage({
     storage: mockedStorage,
@@ -29,9 +28,4 @@ test("scope is added as prefix to key when getting values", () => {
 test("scope is added as prefix to key when removing values", () => {
   scopedStorage.removeItem("key");
   expect(mockedStorage.removeItem).toHaveBeenCalledWith("test-scope.key");
-});
-
-test("clear is proxied to underlying storage", () => {
-  scopedStorage.clear();
-  expect(mockedStorage.clear).toHaveBeenCalled();
 });
