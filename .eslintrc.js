@@ -34,6 +34,7 @@ module.exports = {
     },
     {
       files: [
+        "scripts/*",
         ".eslintrc.js",
         "babel.config.js",
         "jest.config.js",
