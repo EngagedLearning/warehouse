@@ -1,15 +1,12 @@
 {
   "preReleaseId": null,
-  "pkgFiles": ["package.json"],
   "git": {
     "requireUpstream": false,
     "tag": true
   },
-  "scripts": {
-    "beforeStart": "yarn build",
-    "beforeBump": null,
-    "beforeStage": "node scripts/update-changelog-version.js ${version}",
-    "afterRelease": null
+  "hooks": {
+    "before:init": "yarn build",
+    "hooks.after:bump": "node scripts/update-changelog-version.js ${version}"
   },
   "npm": {
     "publish": false
