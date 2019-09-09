@@ -9,7 +9,7 @@
     "url": "https://github.com:engagedlearning/warehouse",
     "type": "git"
   },
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint .",
     "prettier": "prettier --write \"**/*.md\" \"**/*.js\" \"**/*.json\"",

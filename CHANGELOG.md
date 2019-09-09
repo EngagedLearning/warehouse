@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## UNRELEASED
+
+### Added
+
+- Release now runs babel on the source code and uploads the resulting lib directory as artifiacts to the specific github release.
+
 ## 0.6.0 - 2019-09-04
 
 ### Added
