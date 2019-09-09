@@ -6,12 +6,16 @@
     "tag": true
   },
   "scripts": {
-    "beforeStart": null,
+    "beforeStart": "yarn build",
     "beforeBump": null,
     "beforeStage": "node scripts/update-changelog-version.js ${version}",
     "afterRelease": null
   },
   "npm": {
     "publish": false
+  },
+  "github": {
+    "release": true,
+    "assets": ["lib/*.js"]
   }
 }
