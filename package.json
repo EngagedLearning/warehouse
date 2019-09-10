@@ -1,6 +1,6 @@
 {
-  "name": "@enlearn/warehouse",
-  "version": "0.7.0",
+  "name": "enlearn-warehouse",
+  "version": "0.6.0",
   "description": "Promise based data storage.",
   "license": "MIT",
   "homepage": "https://github.com/engagedlearning/warehouse",
@@ -9,13 +9,15 @@
     "url": "https://github.com:engagedlearning/warehouse",
     "type": "git"
   },
-  "main": "lib/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "lint": "eslint .",
     "prettier": "prettier --write \"**/*.md\" \"**/*.js\" \"**/*.json\"",
     "test": "jest --silent",
     "release": "release-it",
-    "build": "babel src --out-dir lib --ignore \"**/*.test.js\""
+    "build": "rimraf dist && yarn build:js && yarn make-package",
+    "build:js": "rollup -c",
+    "make-package": "node scripts/make-package.js"
   },
   "husky": {
     "hooks": {
@@ -37,12 +39,16 @@
     "@enlearn/js-helpers": "EngagedLearning/js-helpers.git#^0.0.x"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.2",
+    "archiver": "^3.0.0",
+    "fs-jetpack": "^2.2.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "@enlearn/eslint-config": "^1.4.0",
     "babel-jest": "^24.1.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "changelog-parser": "^2.7.0",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^4.0.0",

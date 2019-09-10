@@ -1,11 +1,11 @@
 {
   "preReleaseId": null,
+  "buildCommand": "yarn test && yarn build",
   "git": {
     "requireUpstream": false,
     "tag": true
   },
   "hooks": {
-    "before:init": "yarn build",
     "hooks.after:bump": "node scripts/update-changelog-version.js ${version}"
   },
   "npm": {
@@ -13,6 +13,6 @@
   },
   "github": {
     "release": true,
-    "assets": ["lib/*.js"]
+    "assets": ["packages/enlearn-warehouse.zip"]
   }
 }
