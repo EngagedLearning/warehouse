@@ -1,0 +1,26 @@
+on: pull_request
+name: Continuous Integration
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check pr action
+      uses: actions/bin/filter@master
+      with:
+        args: action 'rerequested|opened|synchronize'
+    - name: yarn install
+      uses: ./.github/actions/yarn-install
+      env:
+        ENLEARN_BUILD_PRIVATE_KEY: ${{ secrets.ENLEARN_BUILD_PRIVATE_KEY }}
+    - name: yarn lint
+      uses: docker://node:10
+      with:
+        entrypoint: yarn
+        args: lint
+    - name: yarn test
+      uses: docker://node:10
+      with:
+        entrypoint: yarn
+        args: test
