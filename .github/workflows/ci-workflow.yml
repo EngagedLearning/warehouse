@@ -1,4 +1,8 @@
-on: pull_request
+on: 
+  pull_request:
+    types: [opened, synchronize]
+  check_run:
+    types: [rerequested]
 name: Continuous Integration
 jobs:
   test:
@@ -6,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: check pr action
-      uses: actions/bin/filter@master
-      with:
-        args: action 'rerequested|opened|synchronize'
     - name: yarn install
       uses: ./.github/actions/yarn-install
       env:
